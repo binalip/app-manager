@@ -203,7 +203,7 @@ $(function() {
                     }
 
                 } else {
-                    var msg = processErrorReport(result.report);
+                    var msg = result.message;
                     showAlert(msg, 'error');
                 }
 
@@ -214,9 +214,8 @@ $(function() {
             },
 
             url: '/publisher/asset/' + type,
-            type: 'POST'
-
-
+            type: 'POST',
+            data:{oldVersion : $("#oldversion").val()}
         };
 
         $('#form-asset-copy').ajaxSubmit(options);

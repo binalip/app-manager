@@ -15,6 +15,28 @@ function drawGraphs() {
     var from = dateRange.split('to')[0].trim() + ":00";
     var to = dateRange.split('to')[1].trim() + ":00";
 
+     $.ajax({
+        /* Web Application Last Access Time Graph */
+        async: false,
+        url: '/publisher/api/assets/' + operation + '/' + type + '/' + action
+            + '/',
+        type: 'POST',
+        data: {
+            'startDate': from,
+            'endDate': to
+        },
+        success: function (response) {
+
+            usageByContext = JSON.parse(response);
+            $('#spinner').hide();
+
+        },
+        error: function (response) {
+            alert('Error occured at statistics graph rendering');
+        }
+    });
+
+
     $.ajax({
             /* Web Application Last Access Time Graph */
             async: false,
@@ -57,6 +79,10 @@ function drawGraphs() {
 
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 var drawAPIUsageByUser = function (response,usageByContext) {
 
     var dataStructure = [];
@@ -88,7 +114,11 @@ var drawAPIUsageByUser = function (response,usageByContext) {
             var newArr = [], found, x, y;
             app = (parsedResponse[i][0]);
 
+<<<<<<< HEAD
            // app = app.replace(/\s+/g, '');
+=======
+            //app = app.replace(/\s+/g, '');
+>>>>>>> upstream/master
             if (j != 0) {
                 statement = statement + '<tr>'
             }
@@ -123,6 +153,10 @@ var drawAPIUsageByUser = function (response,usageByContext) {
 
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
         for(var z = 0; z < dataStructure.length; z++){
 
             if(app == dataStructure[z].appName){
@@ -149,6 +183,10 @@ var drawAPIUsageByUser = function (response,usageByContext) {
                 API: dataStructure[p].appName
             });
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
     }
 
     $('.graph-container').html('');

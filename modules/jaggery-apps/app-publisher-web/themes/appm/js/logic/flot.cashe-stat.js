@@ -68,6 +68,7 @@ function drawGraphs() {
 }
    var drawCacheHit = function (response) {
 
+<<<<<<< HEAD
 
 
 
@@ -88,13 +89,22 @@ function drawGraphs() {
 
 
 
+=======
+    var usageByContext = JSON.parse(response);
+    if(usageByContext.length>0){
+    $('#tableContainer').empty();
+>>>>>>> upstream/master
     volumeData =[];
     values =[];
     for (var i = 0; i < usageByContext.length; i++) {
         function dateToUnix(year, month, day, hour, minute, second) {
             return ((new Date(year, month - 1, day, hour, minute, second)).getTime());
         }
+<<<<<<< HEAD
 var hits =0 ;
+=======
+            var hits =0 ;
+>>>>>>> upstream/master
             for (var j = 0; j < 1; j++) {
 
                 var time = usageByContext[i][0];
@@ -128,7 +138,11 @@ var hits =0 ;
                     }
 
                 }else{
+<<<<<<< HEAD
                 //alert(time)
+=======
+
+>>>>>>> upstream/master
                    hits = 0;
                 }
 
@@ -196,7 +210,11 @@ var hits =0 ;
                                          }
 
                                      }else{
+<<<<<<< HEAD
                                      //alert(time)
+=======
+
+>>>>>>> upstream/master
                                         hits = 0;
                                      }
 
@@ -282,7 +300,11 @@ volumeData.push({"key":"Miss","values":values});
                     var seconds = dateInSeconds ;
 
             if (seconds == unixTime) {
+<<<<<<< HEAD
             //alert("time")
+=======
+
+>>>>>>> upstream/master
              var hitOrMiss;
              var hitMissVal;
 
@@ -294,7 +316,11 @@ volumeData.push({"key":"Miss","values":values});
                                 hitMissVal = "Miss"
 
                             }
+<<<<<<< HEAD
                           //  alert(hitOrMiss)
+=======
+
+>>>>>>> upstream/master
 
                             $('div#casheStatTable_wrapper.dataTables_wrapper.no-footer').remove();
 
@@ -446,10 +472,14 @@ volumeData.push({"key":"Miss","values":values});
         });
 
 
+<<<<<<< HEAD
 
 
 
         circle.on("mouseout", function (d) {
+=======
+       circle.on("mouseout", function (d) {
+>>>>>>> upstream/master
                     div.style("display", "none");
                 });
 
