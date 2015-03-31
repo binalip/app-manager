@@ -1,8 +1,8 @@
-<h1>
-    {{title}}
-    <ul class="nav nav-pills pull-right secondary-pills">
+<h1 class="map-heading">
+    {{title}}</h1>
+<ul class="nav nav-pills pull-right secondary-pills ">
         {{#each menuItems.leftNavLinks}}
-            <li class="{{this.additionalClasses}}">
+            <li class="{{this.additionalClasses}}" {{#if this.title}}title="{{this.title}}"{{/if}}>
                 <a href="{{this.url}}">
                     {{#if this.iconClass}}
                         <i class="{{this.iconClass}}"></i>
@@ -10,8 +10,6 @@
                         {{this.name}}
                 </a>
             </li>
-
         {{/each}}
-    </ul>
+</ul>
 
-</h1>

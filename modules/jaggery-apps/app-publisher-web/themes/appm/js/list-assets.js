@@ -3,37 +3,42 @@ var app = $(this).data("app");
 var action = $(this).data("action");
 
 //alert(app + action);
+    if (action == "Reject") {
+        showCommentModel("Reason for Rejection", action, app);
+    } else {
+        jQuery.ajax({
+            url: '/publisher/api/lifecycle/' + action + '/webapp/' + app,
+            type: "PUT"
+        });
+
+        $(document).ajaxComplete(function () {
+            location.reload();
+        });
+    }
+    e.stopPropagation();
+});
 
 
+$( ".btn-reject-proceed" ).click(function() {
+    var comment = $("#commentText").val();
+    if (comment.trim() == "") {
+        alert("Please provide a comment.");
+        return false;
+    }
+
+    var app = $("#webappName").val();
+    var action = $("#action").val();
     jQuery.ajax({
         url: '/publisher/api/lifecycle/' + action + '/webapp/' + app,
         type: "PUT",
-        success: function (response) {
-            //Convert the response to a JSON object
-            var statInfo = JSON.parse(response);
-            if(statInfo.status != "error") {
-                var isAsynch = statInfo.asynch;
-                if (isAsynch == false && action == 'Approve') {
-                    showMessageModel("Your request to publish the application is awaiting administrator approval.", "Awaiting administrator approval", "webapp");
-                } else {
-                    location.reload();
-                }
-            }else{
-                alert(statInfo.message);
-            }
-        },
-        error: function (response) {
-            showMessageModel("Error occured while updating life-cycle state : " + action, "Lify-cycle update failed", "webapp");
-        }
+        data: JSON.stringify({comment: comment})
     });
-	
-	$( document ).ajaxComplete(function() {
-		 location.reload();
-	});
 
- e.stopPropagation();
+    $(document).ajaxComplete(function () {
+        location.reload();
+    });
+
 });
-
 
 
 $( ".tab-button" ).click(function() {
@@ -86,7 +91,7 @@ $( ".btn-view-app" ).click(function(e) {
 });
 
 var showMessageModel = function (msg, head, type) {
-
+    $('#messageModal2 #commentText').html('');
     $('#messageModal2').html($('#confirmation-data1').html());
     $('#messageModal2 h3.modal-title').html((head));
     $('#messageModal2 div.modal-body').html('\n\n' + (msg) + '</b>');
@@ -96,6 +101,14 @@ var showMessageModel = function (msg, head, type) {
         window.location = '/publisher/assets/' + type + '/';
     });
 
+};
+
+var showCommentModel = function (head, action, app) {
+    $('#messageModal3').html($('#confirmation-data1').html());
+    $('#messageModal3 h4.modal-title').html((head));
+    $('#messageModal3 #webappName').val(app);
+    $('#messageModal3 #action').val(action);
+    $('#messageModal3').modal();
 };
 
 function updateQRCode(text) {

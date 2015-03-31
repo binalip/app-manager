@@ -278,6 +278,20 @@ Store.prototype.assetsPagingOverrided = function (request,availablePages) {
     };
 };
 
+Store.prototype.buildNextPage = function (request,availablePages) {
+    var page = request.getParameter('page'),
+            size = this.getPageSize();
+    page = page ? page : 1;
+    if(page >= availablePages){
+        page = availablePages -1;
+    }
+    return {
+        start: page * size,
+        count: size,
+        sort: request.getParameter('sort') || 'recent'
+    };
+};
+
 Store.prototype.pageIndexPopulator = function(pageCount,currentIndex){
     var indices = [];
     var temp={};
@@ -453,6 +467,8 @@ Store.prototype.comment = function (aid, comment) {
 };
 
 Store.prototype.rating = function (aid) {
+
+
     var username, registry,
         carbon = require('carbon'),
         usr = this.user;
@@ -602,23 +618,13 @@ Store.prototype.getAvailablePages = function (type,req,session) {
     var rxtManager = managers.rxtManager;
     var artifactManager = rxtManager.getArtifactManager(type);
     var appCount = artifactManager.count();
-    var pageNumber = Math.floor(appCount/PAGE_SIZE);
-    var remainder = (appCount/PAGE_SIZE) % 1;
-
-    if(remainder || pageNumber===0){
-        pageNumber = pageNumber +1;
-    }
+    var pageNumber = Math.ceil(appCount/PAGE_SIZE);
     return pageNumber;
 };
 
 Store.prototype.getCurrentPage = function(currentIndex){
     var PAGE_SIZE = this.getPageSize();
-    var pageNumber = Math.floor(currentIndex/PAGE_SIZE);
-    var remainder = (currentIndex/PAGE_SIZE) % 1;
-
-    if(remainder || pageNumber===0){
-        pageNumber = pageNumber +1;
-    }
+    var pageNumber = Math.ceil(currentIndex/PAGE_SIZE);
     return pageNumber;
 }
 
@@ -642,7 +648,7 @@ Store.prototype.popularAssets = function (type, count) {
     var paging = {
         start: 0,
         count: count || 5,
-        sortBy: 'overview_name',
+        sortBy: 'overview_displayName',
         sortOrder: 'ASC'
     };
 
@@ -754,7 +760,7 @@ Store.prototype.assetsFromProvider = function (asset, type, paging) {
     var paging = paging || {start: 0, count: 3, sort: 'recent'};
     var assetsFromProvider = {};
     var provider = asset.attributes[ATTR_PROVIDER];
-    var currentAssetName=asset.attributes['overview_name'];
+    var currentAssetName=asset.attributes['overview_displayName'];
     var searchOptions = {};
 
     searchOptions['attributes'] = {};
@@ -769,7 +775,7 @@ Store.prototype.assetsFromProvider = function (asset, type, paging) {
 
     //Filter the returned assets so as to remove the current asset
     assetsFromProvider['assets']=arrayOfAssets.filter(function(asset){
-        return (asset.attributes['overview_name']!=currentAssetName)?true:false;
+        return (asset.attributes['overview_displayName']!=currentAssetName)?true:false;
     });
 
     return assetsFromProvider;
@@ -900,10 +906,8 @@ function handleLoggedInUser(o, session) {
 function handleAnonUser() {
     var anonMasterManager = application.get(APP_MANAGERS);
 
-
     //Check if it is cached
     if (anonMasterManager) {
-
         return anonMasterManager;
 
     }
@@ -953,11 +957,11 @@ function PaginationFormBuilder(pagin) {
             break;
         case 'az':
             DEFAULT_PAGIN.sortOrder = 'ASC'
-            DEFAULT_PAGIN.sortBy = 'overview_name';
+            DEFAULT_PAGIN.sortBy = 'overview_displayName';
             break;
         case 'za':
             DEFAULT_PAGIN.sortOrder = 'DES';
-            DEFAULT_PAGIN.sortBy = 'overview_name';
+            DEFAULT_PAGIN.sortBy = 'overview_displayName';
             break;
         case 'usage':
             // no regsiter pagination support, socail feature need to check
@@ -987,7 +991,7 @@ function PaginationFormBuilder(pagin) {
  */
 function AnonStoreMasterManager() {
     var store = require('store');
-    var registry = store.server.systemRegistry(SUPER_TENANT);
+    var registry = store.server.anonRegistry(SUPER_TENANT);
 
     var managers = buildManagers(registry, SUPER_TENANT);
 

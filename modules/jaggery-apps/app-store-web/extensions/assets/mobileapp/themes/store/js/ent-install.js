@@ -158,10 +158,13 @@ $(document).ready( function () {
                         })
                             .done(function( msg ) {
                                 noty({
-                                    text : 'App is installed to the selected role',
+                                    text : 'App is installed and subscribed to the selected role',
                                     'layout' : 'center',
                                     'modal' : true,
-                                    timeout: 1000
+                                    timeout: 1000,
+                                    'onClose': function() {
+                                        location.reload();
+                                    }
                                 });
                         });
 
@@ -224,10 +227,13 @@ $(document).ready( function () {
                         })
                             .done(function( msg ) {
                                 noty({
-                                    text : 'App is uninstalled from the selected role',
+                                    text : 'App is uninstalled and unsubscribed from the selected role',
                                     'layout' : 'center',
                                     'modal' : true,
-                                    timeout: 1000
+                                    timeout: 1000,
+                                    'onClose': function() {
+                                        location.reload();
+                                    }
                                 });
                          });
 
@@ -290,7 +296,7 @@ $(document).ready( function () {
                         })
                             .done(function( msg ) {
                                 noty({
-                                    text : 'App is installed to the selected user',
+                                    text : 'App is installed and subscribed to the selected user',
                                     'layout' : 'center',
                                     'modal' : true,
                                     timeout: 1000
@@ -357,7 +363,7 @@ $(document).ready( function () {
                         })
                             .done(function( msg ) {
                                 noty({
-                                    text : 'App is uninstalled from the selected user',
+                                    text : 'App is uninstalled and unsubscribed from the selected user',
                                     'layout' : 'center',
                                     'modal' : true,
                                     timeout: 1000
