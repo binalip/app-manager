@@ -1,20 +1,14 @@
 var to = new Date();
-var from = new Date(to.getTime() - 1000 * 60 * 60 * 24 * 30);
+var from = new Date(to.getTime() - (604800000*4));
 var currentDay = new Date(to.getFullYear(), to.getMonth(), to.getDate(),to.getHours(),to.getMinutes());
 
-<<<<<<< HEAD
+
 var today =false;
 var hour = false;
 var week = false;
 var month = false;
 var dateRange = false;
-=======
-var isToday=false;
-var isMonth=false;
-var isHour=false;
-var isDefault=false;
-var isWeek=false;
->>>>>>> upstream/master
+
 
 //day picker
 $('#today-btn').on('click',function(){
@@ -41,12 +35,7 @@ $('#hour-btn').on('click',function(){
     $("#date-range").html(dateStr);
     $('#date-range').data('dateRangePicker').setDateRange(from,to);
     drawGraphs();
-<<<<<<< HEAD
 
-=======
-    isHour=true;
-    isWeek,isMonth,isDefault,isToday=false;
->>>>>>> upstream/master
 })
 
 //week picker
@@ -59,12 +48,7 @@ $('#week-btn').on('click',function(){
     $("#date-range").html(dateStr);
     $('#date-range').data('dateRangePicker').setDateRange(from,to);
     drawGraphs();
-<<<<<<< HEAD
 
-=======
-    isWeek=true;
-    isToday,isMonth,isDefault,isHour=false;
->>>>>>> upstream/master
 })
 
 //month picker
@@ -77,12 +61,7 @@ $('#month-btn').on('click',function(){
     $("#date-range").html(dateStr);
     $('#date-range').data('dateRangePicker').setDateRange(from,to);
     drawGraphs();
-<<<<<<< HEAD
 
-=======
-    isMonth=true;
-    isWeek,isToday,isDefault,isHour=false;
->>>>>>> upstream/master
 })
 
 
@@ -110,8 +89,7 @@ $('#date-range').dateRangePicker(
          $('#date-range').html(from + " to "+ to);
          drawGraphs();
          $('.apply-btn').on('click',function(){
-         isDefault=true;
-         isWeek,isMonth,isToday,isHour=false;
+
          });
     })
     .bind('datepicker-close',function()
@@ -122,8 +100,7 @@ $('#date-range').dateRangePicker(
     $('#date-range').data('dateRangePicker').setDateRange(from,to);
     $('#date-range').html($('#date-range').val());
 
-    isMonth=true;
-    isWeek,isToday,isDefault,isHour=false;
+
 
 $('#date-range').click(function (event) {
     dateRange =true;

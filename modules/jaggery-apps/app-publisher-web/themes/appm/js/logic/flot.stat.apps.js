@@ -2,6 +2,7 @@ var usageByContext;
 $(function () {
 
     drawGraphs();
+
 });
 
 function drawGraphs() {
@@ -79,25 +80,24 @@ function drawGraphs() {
 
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
 var drawAPIUsageByUser = function (response,usageByContext) {
 
     var dataStructure = [];
     for (var i = 0; i < usageByContext.length; i++) {
-
+        var Num =0;
         for (var j = 0; j < usageByContext[i][1].length; j++) {
+        Num =Num+usageByContext[i][1][j][1];
 
-            dataStructure.push({
-                "appName": usageByContext[i][0],
-                "subCount": Number(usageByContext[i][1][j][1]),
-                "checked" : false
-
-            });
         }
+        dataStructure.push({
+            "appName": usageByContext[i][0],
+            "subCount": Num,
+            "checked" : false
+
+        });
     }
+
 
     var parsedResponse = JSON.parse(response);
 
@@ -109,16 +109,12 @@ var drawAPIUsageByUser = function (response,usageByContext) {
         var statement = '';
         var count = 0;
         var app = '';
-
+        app = (parsedResponse[i][0]);
+        app = app.replace(/\s+/g, '');
+        allcount = 0;
         for (var j = 0; j < parsedResponse[i][1].length; j++) {
             var newArr = [], found, x, y;
-            app = (parsedResponse[i][0]);
 
-<<<<<<< HEAD
-           // app = app.replace(/\s+/g, '');
-=======
-            //app = app.replace(/\s+/g, '');
->>>>>>> upstream/master
             if (j != 0) {
                 statement = statement + '<tr>'
             }
@@ -129,7 +125,7 @@ var drawAPIUsageByUser = function (response,usageByContext) {
             var origLen = parsedResponse[i][1][j][1].length,
 
                 maxrowspan = parsedResponse[i][1][j][1].length;
-            allcount = 0;
+
 
             for (var k = 0; k < maximumUsers; k++) {
 
@@ -148,18 +144,22 @@ var drawAPIUsageByUser = function (response,usageByContext) {
                 count++;
                 allcount = Number(allcount) + Number(parsedResponse[i][1][j][1][k][1]);
 
+
             }
 
 
         }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
+            myFunction(allcount,app)
+
+    }
+
+    function myFunction(allcount,app) {
+
         for(var z = 0; z < dataStructure.length; z++){
 
-            if(app == dataStructure[z].appName){
+            if(app == dataStructure[z].appName.replace(/\s+/g, '')){
                 dataStructure[z].checked = true;
                 data.push({
                     API_name: app,
@@ -169,9 +169,8 @@ var drawAPIUsageByUser = function (response,usageByContext) {
                 });
             }
         }
-
     }
-
+      // alert(JSON.stringify(data))
     for(var p = 0; p < dataStructure.length; p++){
 
         if(dataStructure[p].checked == false){
@@ -183,10 +182,7 @@ var drawAPIUsageByUser = function (response,usageByContext) {
                 API: dataStructure[p].appName
             });
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
     }
 
     $('.graph-container').html('');
@@ -199,6 +195,7 @@ var drawAPIUsageByUser = function (response,usageByContext) {
 
     y = chart.addMeasureAxis("y", "Subscriber_Count");
     y.title = "Subscriber Count";
+    x.title ="APPs";
     y.tickFormat = '1d';
 
     z = chart.addMeasureAxis("z", "Hits");
@@ -321,7 +318,7 @@ var drawAPIUsageByUser = function (response,usageByContext) {
         var shape = d3.select(shp);
         var circle = d3.select("#" + d.aggField + "_" + d.aggField + "__");
 
-        circle.on("click", function (d) {
+        circle.on("mouseover", function (d) {
             for (var i = 0; i < parsedResponse.length; i++) {
                 var count = 0;
                 var app = '';
@@ -338,14 +335,14 @@ var drawAPIUsageByUser = function (response,usageByContext) {
 
                         var maximumUsers = parsedResponse[i][1][j][1].length;
                         maxrowspan = parsedResponse[i][1][j][1].length;
-                        allcount = 0;
+                                              allcount = 0;
                         for (var k = 0; k < maximumUsers; k++) {
                             if (k != 0) {
                             }
                             count++;
                             allcount = Number(allcount) + Number(parsedResponse[i][1][j][1][k][1]);
 
-                        }
+                                            }
                         arr.push({version: parsedResponse[i][1][j][0], count: allcount});
 
                     }
@@ -354,10 +351,13 @@ var drawAPIUsageByUser = function (response,usageByContext) {
                     div.style("top", d3.event.pageY - 25 + "px");
                     div.style("display", "inline-block");
                     var chartid = "chart" + k;
-
-                    div.html('<table class="table graphTable" id="tooltipTable" ><thead><tr><th>version</th><th>Hits' +
+                    div.html('<b style="color:#555">'+app +'</b><p style="color:#666;margin-top:5px;">Subscription Count : '+data[i].Subscriber_Count+'</p><table class="table" id="tooltipTable" ><thead><tr><th>version</th><th>Hits' +
                         '</th></tr></thead><tbody></tbody></table>');
 
+//div.html('<div style="color:#555; text-align:left">API : '+app +'</div><div style="color:#666;margin-top:5px;text-align:left">Subscription Count : '+data[i].Subscriber_Count+'</div><table class="table" id="tooltipTable"><thead><tr><th>Version</th><th>Hits</th></tr></thead><tbody></tbody></table>');
+
+                    //    div.html('<label>' + "API NAME :" + '</label>')
+//$('#tooltipTable tbody').append('<tr><td>' + "API NAME :" + '</td><td>' );
                     for (var l = 0; l < arr.length; l++) {
                         var arrStr = JSON.stringify(arr);
                         var versionName = arr[l].version;

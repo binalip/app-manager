@@ -13,7 +13,7 @@ function drawGraphs() {
     var dateRange = $('#date-range').val();
     var from = dateRange.split('to')[0].trim() + ":00";
     var to = dateRange.split('to')[1].trim() + ":00";
-    ;
+
 
     var userParsedResponse;
 
@@ -57,13 +57,15 @@ function drawGraphs() {
 }
 
 var colorScheme=[];
+var defaultFilterValues = [];
+var labelarray =[];
 var drawAPIUsageByPage = function (response) {
 
     $('#checkboxContainer').empty();
     var parsedResponse = JSON.parse(response);
-
     var data = parsedResponse.totalPageCount;
     var ticks = parsedResponse.webapp;
+    var webapp_=parsedResponse.webapp_;
 
 
     var $dataTable = $('<table class="display" width="100%" cellspacing="0" id="apiSelectTable"></table>');
@@ -75,7 +77,7 @@ var drawAPIUsageByPage = function (response) {
 
     var filterValues = [];
     var filterData = [];
-    var defaultFilterValues = [];
+
     var defaultChartData = [];
 
     $('#checkboxContainer').append($dataTable);
@@ -107,7 +109,8 @@ var drawAPIUsageByPage = function (response) {
             filterValues.push(chartTicks[n][1]);
             filterData.push(chartData[n][1]);
             state_array.push(true);
-            defaultFilterValues.push([n, chartTicks[n][1]]);
+            defaultFilterValues.push(
+             {"v":n,"label":chartTicks[n][1] } );
             defaultChartData.push([chartData[n][1],n ]);
         } else {
 
@@ -134,7 +137,15 @@ var drawAPIUsageByPage = function (response) {
             null,
             null
         ],
+                    "fnDrawCallback": function(){
+                                             if(this.fnSettings().fnRecordsDisplay()<=$("#webAppTable2_length option:selected" ).val()
+                                             || $("#webAppTable2_length option:selected" ).val()==-1)
+                                                 $('#webAppTable2_paginate').hide();
+                                             else
+                                                 $('#webAppTable2_paginate').show();
+                                         }
     });
+
 
 
     var defaultOptions = {
@@ -145,7 +156,7 @@ var drawAPIUsageByPage = function (response) {
         },
         bars: {
             align: "center",
-            barWidth: 0.3,
+            barWidth: 0.5,
             horizontal: true
         },
         yaxis: {
@@ -153,12 +164,14 @@ var drawAPIUsageByPage = function (response) {
             axisLabelUseCanvas: true,
             axisLabel: "Web Apps",
             tickLength: 0,
-            ticks: defaultFilterValues
+            ticks: defaultFilterValues,
+            //show:false
         },
         xaxis: {
             axisLabelUseCanvas: false,
             axisLabel: "<b>Total Request</b>",
             axisLabelPadding: 10
+
 
         },
         legend: {
@@ -176,23 +189,52 @@ var drawAPIUsageByPage = function (response) {
     };
 
     var defaultDataset=[];
+    var randomColor =["rgb(31, 119, 180)","rgb(174, 199, 232)","rgb(255, 127, 14)","rgb(255, 187, 120)","rgb(44, 160, 44)","rgb(152, 223, 138)","rgb(214, 39, 40)","rgb(255, 152, 150)","rgb(148, 103, 189)","rgb(197, 176, 213)","rgb(140, 86, 75)","rgb(196, 156, 148)","rgb(227, 119, 194)","rgb(247, 182, 210)","rgb(219, 219, 141)"];
     for(var i=0;i<defaultChartData.length;i++){
-        var randomColor = getRandomColor();
-        defaultDataset.push({data: [defaultChartData[i]], color: randomColor});
+       // var randomColor = getRandomColor();
+        defaultDataset.push({data: [defaultChartData[i]], color: randomColor[i]});
     }
 
     if (parsedResponse.usage.length == 0) {
         $("#placeholder51").html('<h1 class="no-data-heading">No data available</h1>')
     } else {
         $("#placeholder51").html();
-        $.plot($("#placeholder51"), defaultDataset, defaultOptions);
+      somePlot=  $.plot($("#placeholder51"), defaultDataset, defaultOptions);
+            //y axis labeling inside the bar
+            var ctx = somePlot.getCanvas().getContext("2d");
+            var data =(defaultFilterValues);
+            var data1 = somePlot.getData()[0].data;
+            var xaxis = somePlot.getXAxes()[0];
+            var yaxis = somePlot.getYAxes()[0];
+            var offset = somePlot.getPlotOffset();
+            ctx.font = "12px 'Verdana, Arial'";defaultFilterValues
+            ctx.fillStyle = "black";
+            for (var i = 0; i < data.length; i++){
+
+                var text = data[i].label + '';
+
+                var metrics = ctx.measureText(text);
+                var dataPoint = somePlot.getData()[i].datapoints.points; // one point per series
+                var x = dataPoint[0];
+
+                var y = dataPoint[1];
+
+                var xPos =  0+offset.left  // place at end of bar
+                var yPos = yaxis.p2c(y) + offset.top +3;
+                ctx.fillText(text, xPos, yPos);
+                ctx.save();
+
+                ctx.restore();
+            }
     }
     $("#placeholder51").UseTooltip();
+labelarray =defaultFilterValues;
 
     $("#placeholder51").bind("plotclick", function (event, pos, item) {
 
 
         if (item != null) {
+
             var numbers = []
             var option
             $("#placeholder51").parents('.widget').addClass('graph-maximized');
@@ -208,7 +250,7 @@ var drawAPIUsageByPage = function (response) {
             var y = item.datapoint[0];
             //console.log(JSON.stringify(item.ticks));
 
-            label = item.series.yaxis.ticks[x].label;
+            label = labelarray[x].label;
 
 
 
@@ -232,6 +274,7 @@ var drawAPIUsageByPage = function (response) {
             var option;
 
             for (i = 0; i < numbers.length; i++) {
+
                 option += '<option value="' + numbers[i] + '">' + numbers[i] + '</option>';
             }
             $('#items').html(option);
@@ -294,18 +337,19 @@ var drawAPIUsageByPage = function (response) {
         var x_iter = 0
         $.each(filterValues, function (index, value) {
             if (state_array[index]) {
-                draw_x_axis.push([x_iter, value]);
+                draw_x_axis.push({"v":x_iter,"label":value }
+               );
                 x_iter++
             }
         });
-
+labelarray = draw_x_axis;
         var options = {
             series: {
 
                 bars: {
                     show: true,
                     align: "center",
-                    barWidth: 0.3,
+                    barWidth: 0.5,
                     horizontal: true,
                 }
             },
@@ -315,7 +359,8 @@ var drawAPIUsageByPage = function (response) {
                 axisLabelUseCanvas: true,
                 axisLabel: "Web Apps",
                 tickLength: 0,
-                ticks: draw_x_axis
+                ticks: draw_x_axis,
+                show:false
             },
             xaxis: {
                 axisLabelUseCanvas: false,
@@ -340,14 +385,41 @@ var drawAPIUsageByPage = function (response) {
 
         //color bar chart
         var dataset=[];
+    var randomColor =["rgb(31, 119, 180)","rgb(174, 199, 232)","rgb(255, 127, 14)","rgb(255, 187, 120)","rgb(44, 160, 44)","rgb(152, 223, 138)","rgb(214, 39, 40)","rgb(255, 152, 150)","rgb(148, 103, 189)","rgb(197, 176, 213)","rgb(140, 86, 75)","rgb(196, 156, 148)","rgb(227, 119, 194)","rgb(247, 182, 210)","rgb(219, 219, 141)"];
 
         for(var i=0;i<draw_y_axis.length;i++){
-            var randomColor = getRandomColor();
+            //var randomColor = getRandomColor();
             colorScheme.push(randomColor);
-            dataset.push({data: [draw_y_axis[i]], color: randomColor});
+            dataset.push({data: [draw_y_axis[i]], color: randomColor[i]});
         }
 
-        $.plot($("#placeholder51"), dataset, options);
+        somePlot=$.plot($("#placeholder51"), dataset, options);
+         //y axis labeling inside the bar
+                    var ctx = somePlot.getCanvas().getContext("2d");
+                    var data =(draw_x_axis);
+                    var data1 = somePlot.getData()[0].data;
+                    var xaxis = somePlot.getXAxes()[0];
+                    var yaxis = somePlot.getYAxes()[0];
+                    var offset = somePlot.getPlotOffset();
+                    ctx.font = "12px 'Verdana, Arial'";defaultFilterValues
+                        ctx.fillStyle = "black";
+                    for (var i = 0; i < data.length; i++){
+
+                        var text = data[i].label + '';
+
+                        var metrics = ctx.measureText(text);
+                        var dataPoint = somePlot.getData()[i].datapoints.points; // one point per series
+                        var x = dataPoint[0];
+
+                        var y = dataPoint[1];
+
+                        var xPos =  0+offset.left  // place at end of bar
+                        var yPos = yaxis.p2c(y) + offset.top +3;
+                        ctx.fillText(text, xPos, yPos);
+                        ctx.save();
+
+                        ctx.restore();
+                    }
         $("#placeholder51").UseTooltip();
     });
 }
@@ -355,26 +427,34 @@ var drawAPIUsageByPage = function (response) {
 var previousPoint = null, previousLabel = null;
 
 $.fn.UseTooltip = function () {
-    $(this).bind("plothover", function (event, pos, item) {
-        if (item) {
-            if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
-                previousPoint = item.dataIndex;
-                previousLabel = item.series.label;
-                $("#tooltip").remove();
-                var x = item.datapoint[0];
-                var y = item.datapoint[1];
-                var color = item.series.color;
-                showTooltip(item.pageX,
-                    item.pageY,
-                    color,
-                        "<strong>" +item.series.yaxis.ticks[y].label + " : " + x + "</strong>");
-            }
-        } else {
-            $("#tooltip").remove();
-            previousPoint = null;
-        }
-    });
+//    $(this).bind("plothover", function (event, pos, item) {
+//        if (item) {
+//            if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+//                previousPoint = item.dataIndex;
+//                previousLabel = item.series.label;
+//                $("#tooltip").remove();
+//                var x = item.datapoint[0];
+//                var y = item.datapoint[1];
+//
+//                var color = item.series.color;
+//                showTooltip(item.pageX,
+//                    item.pageY,
+//                    color,
+//                        "<strong>" +defaultFilterValues[y].label + " : " + x + "</strong>");
+//            }
+//        } else {
+//            $("#tooltip").remove();
+//            previousPoint = null;
+//        }
+//    });
 };
+$("#placeholder51").bind("plothover", function(event, pos, item) {
+    if(item) {
+        document.body.style.cursor = 'pointer';
+    } else {
+        document.body.style.cursor = 'default';
+    }
+});
 
 function showTooltip(x, y, color, contents) {
     $('<div id="tooltip">' + contents + '</div>').css({
@@ -536,14 +616,14 @@ function drawPopupChart(parsedResponse, label, strUser) {
 
 }
 
-function getRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-
-    return color;
-}
+//function getRandomColor() {
+//    var letters = '0123456789ABCDEF'.split('');
+//    var color = '#';
+//
+//    for (var i = 0; i < 6; i++) {
+//        color += letters[Math.floor(Math.random() * 16)];
+//    }
+//
+//    return color;
+//}
 
