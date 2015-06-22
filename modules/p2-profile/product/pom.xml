@@ -15,9 +15,9 @@
  ~ limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/${carbon.platform.version}"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/${carbon.platform.version} http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.wso2.appmanager</groupId>
@@ -37,7 +37,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.0-alpha-4</version>
+                <!--<version>2.0-alpha-4</version> -->
                 <inherited>false</inherited>
                 <executions>
                     <execution>
@@ -351,7 +351,7 @@
                                 </featureArtifactDef>
 
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.mediation.initializer.feature:4.2.1
+                                    org.wso2.carbon:org.wso2.carbon.mediation.initializer.feature:4.2.3
                                 </featureArtifactDef>
 
                                 <featureArtifactDef>
@@ -400,7 +400,7 @@
                                 <!--featureArtifactDef>org.wso2.carbon:org.wso2.carbon.rule.mediator.feature:${carbon.platform.version}</featureArtifactDef-->
 
                                 <featureArtifactDef>
-                                    org.wso2.appmanager:org.wso2.appmanager.styles.feature:1.0.0-SNAPSHOT
+                                    org.wso2.appmanager:org.wso2.appmanager.styles.feature:${appmanagerserver.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.relay.feature:${carbon.platform.version}
@@ -451,25 +451,31 @@
                                 <!-- <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.reporting.feature:${carbon.patch.version.401}</featureArtifactDef>-->
                                 <!-- end reporting features -->
 
-                                <!--API Management related feature-->
+                                <!--APP Management related feature-->
                                 <featureArtifactDef>org.jaggeryjs:org.jaggeryjs.feature:0.9.0.ALPHA4.wso2v4
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.feature:1.0.0-SNAPSHOT
+                                <featureArtifactDef>org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.feature:${appmanagerserver.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.appmanager:org.wso2.stratos.appmgt.dashboard.ui.feature:1.0.0-SNAPSHOT
+                                    org.wso2.appmanager:org.wso2.stratos.appmgt.dashboard.ui.feature:${appmanagerserver.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.mobile.feature:1.0.0-SNAPSHOT
+                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.mobile.feature:${appmanagerserver.version}
                                 </featureArtifactDef>
-				 <featureArtifactDef>
-                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.mdm.wso2mdm.feature:1.0.0-SNAPSHOT
+				                <featureArtifactDef>
+                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.mdm.wso2mdm.feature:${appmanagerserver.version}
                                 </featureArtifactDef>
-				<featureArtifactDef>
-                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.mdm.wso2emm.feature:1.0.0-SNAPSHOT
+				                <featureArtifactDef>
+                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.mdm.wso2emm.feature:${appmanagerserver.version}
                                 </featureArtifactDef>
-				 <featureArtifactDef>
-                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.services.api.feature:1.0.0-SNAPSHOT
+				                <featureArtifactDef>
+                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.services.api.feature:${appmanagerserver.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.publisher.feature:${appmanagerserver.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.appmgt:org.wso2.carbon.appmgt.store.feature:${appmanagerserver.version}
                                 </featureArtifactDef>
                                 <!--featureArtifactDef>org.wso2.am:org.wso2.stratos.apimgt.dashboard.ui.feature:${stratos.version}</featureArtifactDef-->
 
@@ -548,8 +554,8 @@
                                 <!-- as runtime features-->
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.as.runtimes.cxf.feature:4.2.2
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:4.2.2
-                                </featureArtifactDef>
+                                <!--featureArtifactDef>org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:4.2.2
+                                </featureArtifactDef-->
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.jaxws.webapp.mgt.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
@@ -557,7 +563,7 @@
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.claim.mgt.feature:4.2.1
                                 </featureArtifactDef>
                                 <!---->
-                                <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.webapp.mgt.feature:4.2.2
+                                <featureArtifactDef>org.wso2.carbon.deployment:org.wso2.carbon.webapp.mgt.feature:${carbon.deployment.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.jaxws.webapp.mgt.feature:${carbon.platform.version}
@@ -573,7 +579,7 @@
 				<!--<featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.bam.toolbox.deployer.feature:4.2.2
                                 </featureArtifactDef>-->
-				<featureArtifactDef>org.wso2.store.modules:ues.feature:${snapshot.feature.version}</featureArtifactDef>
+				<!--featureArtifactDef>org.wso2.store.modules:ues.feature:${snapshot.feature.version}</featureArtifactDef-->
 				<featureArtifactDef>org.wso2.store.modules:store.feature:${snapshot.feature.version}</featureArtifactDef>
 				<featureArtifactDef>org.jaggeryjs.modules:handlebars.feature:1.0.0</featureArtifactDef>
 				<featureArtifactDef>org.wso2.store.modules:login.feature:${snapshot.feature.version}</featureArtifactDef>
@@ -644,7 +650,7 @@
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.mgt.feature:4.2.2</featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.sts.passive.feature:4.2.2</featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.xacml.feature:4.2.2</featureArtifactDef>
-                                <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.scim.feature:4.2.2</featureArtifactDef>
+                                <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.scim.feature:${carbon.scim.feature.version}</featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.sts.feature:4.2.2</featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.sts.mgt.feature:4.2.0</featureArtifactDef> 
 
@@ -802,10 +808,10 @@
                                     <id>org.wso2.carbon.as.runtimes.cxf.feature.group</id>
                                     <version>4.2.2</version>
                                 </feature>
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.webapp.mgt.server.feature.group</id>
                                     <version>4.2.2</version>
-                                </feature>
+                                </feature-->
                                 <feature>
                                     <id>org.wso2.carbon.jaxws.webapp.mgt.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -849,7 +855,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.mediation.initializer.feature.group</id>
-                                    <version>4.2.1</version>
+                                    <version>4.2.3</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.mediation.security.server.feature.group</id>
@@ -879,7 +885,7 @@
                                     <id>org.wso2.carbon.application.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-				<feature>
+				                <feature>
                                     <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
                                     <version>4.2.1</version>
                                 </feature>
@@ -989,27 +995,35 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.appmanager.styles.feature.group</id>
-                                    <version>1.0.0-SNAPSHOT</version>
+                                    <version>${appmanagerserver.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.stratos.appmgt.dashboard.ui.feature.group</id>
-                                    <version>1.0.0-SNAPSHOT</version>
+                                    <version>${appmanagerserver.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.appmgt.mobile.feature.group</id>
-                                    <version>1.0.0-SNAPSHOT</version>
+                                    <version>${appmanagerserver.version}</version>
                                 </feature>
-				<feature>
+				                <feature>
                                     <id>org.wso2.carbon.appmgt.mdm.wso2mdm.feature.group</id>
-                                    <version>1.0.0-SNAPSHOT</version>
+                                    <version>${appmanagerserver.version}</version>
                                 </feature>
-				<feature>
+				                <feature>
                                     <id>org.wso2.carbon.appmgt.mdm.wso2emm.feature.group</id>
-                                    <version>1.0.0-SNAPSHOT</version>
+                                    <version>${appmanagerserver.version}</version>
                                 </feature>
- 				<feature>
+ 				                <feature>
                                     <id>org.wso2.carbon.appmgt.services.api.feature.group</id>
-                                    <version>1.0.0-SNAPSHOT</version>
+                                    <version>${appmanagerserver.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.appmgt.publisher.feature.group</id>
+                                    <version>${appmanagerserver.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.appmgt.store.feature.group</id>
+                                    <version>${appmanagerserver.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.event.feature.group</id>
@@ -1105,14 +1119,14 @@
                                     <id>org.wso2.carbon.registry.ws.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <!--API Management related feature-->
+                                <!--APP Management related feature-->
                                 <feature>
                                     <id>org.jaggeryjs.feature.group</id>
                                     <version>0.9.0.ALPHA4.wso2v4</version>
                                 </feature>                               
                                 <feature>
                                     <id>org.wso2.carbon.appmgt.feature.group</id>
-                                    <version>1.0.0-SNAPSHOT</version>
+                                    <version>${appmanagerserver.version}</version>
                                 </feature>
                                 <!---->
                                 <!--Registry Feature-->
@@ -1175,7 +1189,7 @@
                         </feature> -->
                                 <feature>
                                     <id>org.wso2.carbon.webapp.mgt.feature.group</id>
-                                    <version>4.2.2</version>
+                                    <version>${carbon.deployment.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.jaxws.webapp.mgt.feature.group</id>
@@ -1193,10 +1207,10 @@
                                     <id>org.wso2.carbon.bam.toolbox.deployer.feature.group</id>
                                     <version>4.2.2</version>
                                 </feature>-->
-				<feature>
+				<!--feature>
                                     <id>org.wso2.store.modules.ues.feature.group</id>
                                     <version>${snapshot.feature.version}</version>
-                                </feature>
+                                </feature-->
 				<feature>
                                     <id>org.wso2.store.modules.login.feature.group</id>
                                     <version>${snapshot.feature.version}</version>
@@ -1366,7 +1380,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.scim.feature.group</id>
-                                    <version>4.2.2</version>
+                                    <version>${carbon.scim.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.sts.feature.group</id>
@@ -1483,6 +1497,8 @@
 <properties>
         <snapshot.feature.version>1.0.0</snapshot.feature.version>
 	<caramel.feature.version>1.0.0</caramel.feature.version>
+	<carbon.deployment.feature.version>4.2.3-SNAPSHOT</carbon.deployment.feature.version>
+	<carbon.scim.feature.version>4.2.5-SNAPSHOT</carbon.scim.feature.version>
 </properties>
 
 </project>

@@ -47,7 +47,8 @@
 		<exclude>**/user-mgt.xml</exclude>
                 <exclude>**/identity.xml</exclude>
                 <exclude>**/embedded-ldap.xml</exclude>
-                <exclude>**/master-datasources.xml</exclude>
+		<exclude>**/master-datasources.xml</exclude>
+                <exclude>**/conf/tomcat/web.xml</exclude>
                 <exclude>**/repository/deployment/server/jaggeryapps/publisher/**</exclude>
                 <exclude>**/repository/deployment/server/jaggeryapps/store/**</exclude>
 		<exclude>**/lib/org.wso2.carbon.server-${carbon.version}.jar</exclude>
@@ -68,7 +69,11 @@
         <fileSet>
             <directory>src/main/conf/synapse-configs</directory>
             <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/synapse-configs</outputDirectory>
+	    <excludes>
+		<exclude>**/main.xml</exclude>
+            </excludes>
         </fileSet>
+        
   	<fileSet>
             <directory>src/main/conf/synapse-configs/default/sequences</directory>
             <outputDirectory>wso2appm-${pom.version}/repository/resources/apim-synapse-config/</outputDirectory>
@@ -97,6 +102,10 @@
             <includes>
                 <include>**/**.sql</include>
             </includes>
+	    <excludes>
+                <exclude>**/application-mgt/oracle.sql</exclude>
+		<exclude>**/application-mgt/oracle_rac.sql</exclude>
+	    </excludes>
         </fileSet>
 	<fileSet>
             <directory>
@@ -116,104 +125,21 @@
                 <include>**/**.sql</include>
             </includes>
         </fileSet>
-	<fileSet>
-            <directory>
-                ../../jaggery-apps/app-publisher-web/</directory>
-            <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/jaggeryapps/publisher</outputDirectory>
-            <!--<includes>-->
-                <!--<include>**/config/ext/webapp.json</include>-->
-		<!--<include>**/config/lifecycles/WebAppLifeCycle.xml</include>-->
-		<!--<include>**/config/publisher.json</include>-->
-		<!--<include>**/config/publisher-tenant.json</include>-->
-		<!--<include>**/controllers/login.jag</include>-->
-		<!--<include>**/controllers/logout.jag</include>-->
-		<!--<include>**/controllers/index_router.jag</include>-->
-		<!--<include>**/modules/ext/scripts/webapp.action.save.js</include>-->
-		<!--<include>**/apis/v1/lifecycle_api_router.jag</include>-->
-		<!--<include>**/apis/v1/assets_api_router.jag</include>-->
-		<!--<include>**/themes/appm/**</include>-->
-		<!--<include>**/themes/default/**</include>-->
-            <!--</includes>-->
-        </fileSet>
-	<fileSet>
-            <directory>
-                ../../jaggery-apps/app-store-web/</directory>
-            <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/jaggeryapps/store</outputDirectory>
-            <!--<includes>-->
-                <!--<include>**/config/ext/webapp.json</include>-->
-		<!--<include>**/config/store-tenant.json</include>-->
-		<!--<include>**/config/store.json</include>-->
-		<!--<include>**/controllers/login.jag</include>-->
-		<!--<include>**/controllers/logout.jag</include>-->
-		<!--<include>**/controllers/routers/**</include>-->
-		<!--<include>**/extensions/assets/webapp/**</include>-->
-		<!--<include>**/modules/contextualizer/**</include>-->
-		<!--<include>**/themes/store/img/logo.png</include>-->
-		<!--<include>**/themes/store/helpers/rating-provider.js</include>-->
-		<!--<include>**/themes/store/partials/morefromprovider-widget.hbs</include>-->
-		<!--<include>**/themes/store/partials/footer.hbs</include>-->
-		<!--<include>**/jaggery.conf</include>-->
-		<!--<include>**/apis/user.jag</include>-->
-            <!--</includes>-->
-	</fileSet>
-	<fileSet>
-            <directory>
-                ../../jaggery-apps/app-admin-dashboard-web/</directory>
-            <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/jaggeryapps/admin-dashboard</outputDirectory>
-            <!--<includes>-->
-                <!--<include>**/config/ext/webapp.json</include>-->
-                <!--<include>**/config/lifecycles/WebAppLifeCycle.xml</include>-->
-                <!--<include>**/config/publisher.json</include>-->
-                <!--<include>**/config/publisher-tenant.json</include>-->
-                <!--<include>**/controllers/login.jag</include>-->
-                <!--<include>**/controllers/logout.jag</include>-->
-                <!--<include>**/controllers/index_router.jag</include>-->
-                <!--<include>**/modules/ext/scripts/webapp.action.save.js</include>-->
-                <!--<include>**/apis/v1/lifecycle_api_router.jag</include>-->
-                <!--<include>**/apis/v1/assets_api_router.jag</include>-->
-                <!--<include>**/themes/appm/**</include>-->
-                <!--<include>**/themes/default/**</include>-->
-            <!--</includes>-->
-        </fileSet>
-	<fileSet>
-            <directory>
-                ../../jaggery-apps/app-social-web/</directory>
-            <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/jaggeryapps/social</outputDirectory>
-            <!--<includes>-->
-                <!--<include>**/config/ext/webapp.json</include>-->
-                <!--<include>**/config/lifecycles/WebAppLifeCycle.xml</include>-->
-                <!--<include>**/config/publisher.json</include>-->
-                <!--<include>**/config/publisher-tenant.json</include>-->
-                <!--<include>**/controllers/login.jag</include>-->
-                <!--<include>**/controllers/logout.jag</include>-->
-                <!--<include>**/controllers/index_router.jag</include>-->
-                <!--<include>**/modules/ext/scripts/webapp.action.save.js</include>-->
-                <!--<include>**/apis/v1/lifecycle_api_router.jag</include>-->
-                <!--<include>**/apis/v1/assets_api_router.jag</include>-->
-                <!--<include>**/themes/appm/**</include>-->
-                <!--<include>**/themes/default/**</include>-->
-            <!--</includes>-->
 
-            <!-- IS JAGGERY APPS -->
-        </fileSet>
-            <fileSet>
+        <!--fileSet>
             <directory>../../jaggery-apps/user-dashboard/dashboard</directory>
             <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/jaggeryapps/dashboard</outputDirectory>
-            <!-- Changes related to Carbon kernel 4.2.0 patches -->
             <includes>
                 <include>**/**</include>
             </includes>
-            <!-- End - Changes related to Carbon kernel 4.2.0 patches -->
-        </fileSet>
-    <fileSet>
+        </fileSet-->
+    	<!--fileSet>
             <directory>../../jaggery-apps/portal</directory>
             <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/jaggeryapps/portal</outputDirectory>
-            <!-- Changes related to Carbon kernel 4.2.0 patches -->
             <includes>
                 <include>**/**</include>
             </includes>
-            <!-- End - Changes related to Carbon kernel 4.2.0 patches -->
-        </fileSet>
+        </fileSet-->
         <fileSet>
             <directory>../../jaggery-apps/shindig</directory>
             <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/webapps/shindig</outputDirectory>
@@ -228,13 +154,24 @@
 
         <fileSet>
             <directory>
-                ../resources/sql/
+                ../resources/sql/appmgt/
             </directory>
             <outputDirectory>wso2appm-${pom.version}/dbscripts/appmgt</outputDirectory>
             <includes>
                 <include>**/**.sql</include>
             </includes>
         </fileSet>
+
+	<!-- Include identity/application-mgt oracle script. This should move to take from identity feature from next release.-->
+	<fileSet>
+            <directory>
+                ../resources/sql/identity/application-mgt/
+            </directory>
+            <outputDirectory>wso2appm-${pom.version}/dbscripts/identity/application-mgt/</outputDirectory>
+            <includes>
+                <include>**/**.sql</include>
+            </includes>
+        </fileSet> 
 	<fileSet>
             <directory>../../p2-profile-gen/target/WSO2-CARBON-PATCH-${carbon.version}-0001/dbscripts</directory>
             <outputDirectory>wso2appm-${pom.version}/dbscripts</outputDirectory>
@@ -403,6 +340,17 @@
         <fileSet>
             <directory>src/main/statistics/target</directory>
             <outputDirectory>wso2appm-${pom.version}/statistics</outputDirectory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy publisher, store and social apps -->
+        <fileSet>
+            <directory>
+                ../../p2-profile/product/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps
+            </directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps</outputDirectory>
             <includes>
                 <include>**/*.*</include>
             </includes>
@@ -747,6 +695,11 @@
             <destName>identity.xml</destName>
         </file>
 	<file>
+            <source>src/main/conf/web.xml</source>
+            <outputDirectory>wso2appm-${pom.version}/repository/conf/tomcat</outputDirectory>
+            <destName>web.xml</destName>
+        </file>
+	<file>
             <source>src/main/conf/user-mgt.xml</source>
             <outputDirectory>wso2appm-${pom.version}/repository/conf</outputDirectory>
             <destName>user-mgt.xml</destName>
@@ -914,6 +867,12 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file> 
+	<!--<file>-->
+            <!--<source>../../p2-profile/product/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/social.xml</source>-->
+            <!--<outputDirectory>wso2appm-${pom.version}/repository/conf</outputDirectory>-->
+            <!--<filtered>true</filtered>-->
+            <!--<fileMode>644</fileMode>-->
+        <!--</file> -->
          <!--file>
             <source>../../p2-profile/product/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security/idp-config.xml</source>
             <outputDirectory>wso2appm-${pom.version}/repository/conf/security</outputDirectory>
@@ -925,6 +884,26 @@
             <destName>message-tracer-config.xml</destName>
             <filtered>true</filtered>
 	    <fileMode>644</fileMode>
+        </file>
+	<!--Copy main sequence xml from gateway feature -->
+	<file>
+           <source>../../p2-profile/product/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/synapse-configs/default/sequences/main.xml</source>
+           <outputDirectory>wso2appm-${pom.version}/repository/deployment/server/synapse-configs/default/sequences</outputDirectory>
+	   <destName>main.xml</destName>
+           <filtered>true</filtered>
+	   <fileMode>644</fileMode>
+        </file>
+
+	<!-- Copy Sample web-apps -->
+	<file>
+            <source>../../../webapps/plan-your-trip/plan-your-trip-1.0.war</source>
+            <outputDirectory>wso2appm-${pom.version}/samples</outputDirectory>
+            <destName>plan-your-trip-1.0.war</destName>
+        </file>
+	<file>
+            <source>../../../webapps/travel-booking/travel-booking-1.0.war</source>
+            <outputDirectory>wso2appm-${pom.version}/samples</outputDirectory>
+            <destName>travel-booking-1.0.war</destName>
         </file>
 
     </files>
